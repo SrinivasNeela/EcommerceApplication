@@ -22,7 +22,7 @@ const findAdminByphoneNo = async phoneNo=>{
 const registerAdmin = async newAdmin => {
     try {
         newAdmin.password = await Util.encryptPassword(newAdmin.password);
-        return await db.getCollection('ecommerce').insertOne(newAdmin)
+        return await db.getCollection('admin').insertOne(newAdmin)
     } catch (e) {
         throw e
     }

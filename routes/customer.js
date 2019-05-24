@@ -10,16 +10,16 @@ const CustomerModule =require('../modules/customer')
 
 //register srinivas
 router.post("/register",  async (req, res) => {
-	const {admin: { username ,phoneNo, password} } = req.body
+	const {customer: {name ,email, password} } = req.body
 	try {
-            const adminData = await AdminModule.findAdminByphoneNo(phoneNo)
-			if (adminData) {
-				res.status(400).send("Admin Already Exists")
+            const customerData = await CustomerModule.findCustomerByEmail(email)
+			if (customerData) {
+				res.status(400).send("Customer Already Exists")
 			} else {
                 console.log("hii")
-                const regAdmin = new Admin(username, phoneNo, password);
-				const registeredAdmin = await AdminModule.registerAdmin(regAdmin)
-				res.json(registeredAdmin)
+                const regCustom = new Customer(name, email, password);
+				const registeredCustomer = await CustomerModule.registerCustomer(regCustom)
+				res.json(registeredCustomer)
             }
 		} 
 	   catch (err) {
@@ -30,13 +30,13 @@ router.post("/register",  async (req, res) => {
 
 // Login srinivas
 router.post("/login", async (req, res) => {
-	const { admin : {phoneNo, password }} = req.body
+	const { customer : {email, password }} = req.body
  	try {
- 		const admin = await AdminModule.findAdminByphoneNo(phoneNo)
-		if (admin) {
-		const isMatch = await Util.comparePassword(password, admin.password)
+ 		const customer = await CustomerModule.findCustomerByEmail(email)
+		if (customer) {
+		const isMatch = await Util.comparePassword(password, customer.password)
 			if (isMatch) {
-				const token = jwt.sign(admin, config.secret, {
+				const token = jwt.sign(customer, config.secret, {
                     expiresIn: 604800, // 1 Week 			
                 	})
 				res.json({
@@ -50,7 +50,7 @@ router.post("/login", async (req, res) => {
  				res.json({ success: false, message: "Wrong Password" })
  			}
  		} else {
-			res.json({ success: false, message: "Admin  Does Not Exists" })
+			res.json({ success: false, message: "Customer Does Not Exists" })
 		}
 	} catch (err) {
 		console.log(err)

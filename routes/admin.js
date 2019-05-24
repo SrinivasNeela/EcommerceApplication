@@ -30,9 +30,10 @@ router.post("/register",  async (req, res) => {
 
 // Login srinivas
 router.post("/login", async (req, res) => {
-	const { admin : {phoneNo, password }} = req.body
+	const { admin : { phoneNo, password }} = req.body
  	try {
- 		const admin = await AdminModule.findAdminByphoneNo(phoneNo)
+         const admin = await AdminModule.findAdminByphoneNo(phoneNo)
+
 		if (admin) {
 		const isMatch = await Util.comparePassword(password, admin.password)
 			if (isMatch) {
