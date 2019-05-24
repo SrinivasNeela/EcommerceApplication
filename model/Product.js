@@ -1,5 +1,7 @@
-module.exports = class Product{
-    constructor(id, description, finish, price,status, imagesList){
+module.exports = class Product
+{
+    constructor(id, description, finish, price,status, imagesList)
+    {
         this.id = id;
         this.description = description;
         this.finish = finish;
@@ -8,5 +10,6 @@ module.exports = class Product{
         this.imagesList = imagesList;
 
     }
-
 }
+
+
