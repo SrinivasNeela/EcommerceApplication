@@ -32,7 +32,7 @@ router.post("/register",  async (req, res) => {
 router.post("/login", async (req, res) => {
 	const { customer : {email, password }} = req.body
  	try {
- 		const customer = await CustomerModule.findCustomerByEmail(email)
+		 const customer = await CustomerModule.findCustomerByEmail(email)
 		if (customer) {
 		const isMatch = await Util.comparePassword(password, customer.password)
 			if (isMatch) {
