@@ -1,0 +1,32 @@
+{
+  "name": "ecommerceapplication",
+  "version": "1.0.0",
+  "description": "Ecommerce Application",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.0",
+    "mongodb": "^3.2.6",
+    "nodemon": "^1.19.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  },
+  "nodemonConfig": {
+    "restartable": "rs",
+    "ignore": [
+      "nodemodules/**/node_modules"
+    ],
+    "delay": "1000",
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 4000
+    }
+  }
+}
