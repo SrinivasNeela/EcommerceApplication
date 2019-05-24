@@ -5,7 +5,7 @@ const Util=require("../util")
 const findAdminById =async(id)=>{
     try {
         if (!ObjectID.isValid(id)) throw 'Invalid MongoDB ID.'
-        return await db.getCollection('ecommerce').findOne(ObjectID(id))
+        return await db.getCollection('admin').findOne(ObjectID(id))
     } catch (e) {   
         throw e
     }
@@ -13,7 +13,7 @@ const findAdminById =async(id)=>{
 
 const findAdminByphoneNo = async phoneNo=>{
     try {
-        return await db.getCollection('ecommerce').findOne({phoneNo})
+        return await db.getCollection('admin').findOne({phoneNo})
     } catch (e) {   
         throw e
     }
