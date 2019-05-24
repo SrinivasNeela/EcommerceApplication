@@ -58,4 +58,10 @@ router.post("/login", async (req, res) => {
 	}
 })
 
+
+router.get("/profile", passport.authenticate("jwt", { session: false }), async (req, res) => {
+	 res.json({customer :req.user})
+});
+
+
 module.exports =router

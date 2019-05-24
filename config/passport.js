@@ -14,7 +14,7 @@ module.exports = passport => {
              if (admin)
                 return done(null, admin);
             else if(customer) 
-                    return done(null, admin);
+                    return done(null, customer);
             else 
                 return done(null, false);
             
