@@ -105,20 +105,20 @@ router.get("/profile", passport.authenticate("jwt", { session: false }), async (
 // })
 
 
-// view Customers
-router.get("/totalcustomers",passport.authenticate("jwt", { session: false }), async (req, res) =>{
+// view Customers rajesh
+router.get("/totalcustomers", passport.authenticate("jwt", { session: false }), async (req, res) =>{
   const custList = await customerModule.findCustomers();
   res.json(custList);
 
 })
 
-// view orderDetails
+// view orderDetails rajesh
 router.get("/orderproductlist", passport.authenticate("jwt", { session: false }),async (req, res) =>{
   const orderProductList = await customerModule.findorderProductList();
   res.json(orderProductList);
 })
 
-// view orders
+// view orders rajesh
 router.get("/orderslist", passport.authenticate("jwt", { session: false }), async(req,res)=>{
 try{
   const ordersListData = await customerModule.findOrdersList()
@@ -130,7 +130,7 @@ catch(e)
 }
 })
 
-// view order by filter - not working
+// view order by filter - not working -rajesh
 router.get("/orderslists/customerid",  async(req,res)=>{
   try{
     const ordersListData = await customerModule.findOrdersList()

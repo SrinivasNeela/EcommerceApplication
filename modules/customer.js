@@ -1,5 +1,6 @@
-<<<<<<< HEAD
-var db = require('../db')
+const ObjectID = require("mongodb").ObjectID
+const db = require("../db")
+const Util=require("../util")
 
 // view Customers
 const findCustomers= async =>{
@@ -31,11 +32,9 @@ const findOrdersList = async =>{
     }
 }
 
-module.exports ={findCustomers,findOrdersList, findorderProductList}
-=======
-const ObjectID = require("mongodb").ObjectID
-const db = require("../db")
-const Util=require("../util")
+
+
+
 
 const findCustomerById =async(id)=>{
     try {
@@ -64,5 +63,5 @@ const registerCustomer = async newCustomer => {
 }
 
 
-module.exports ={findCustomerById,findCustomerByEmail,registerCustomer}
->>>>>>> fc992b2e7f19774735879290cba78620155969c1
+module.exports ={findCustomerById,findCustomerByEmail,registerCustomer,findCustomers,findOrdersList, findorderProductList}
+
