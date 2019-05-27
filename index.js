@@ -9,7 +9,6 @@ require("./config/passport")(passport)
 const admin = require("./routes/admin")
 const customer =require('./routes/customer')
 var productRouter=require('./routes/productRouter.js');
-var adminRouter=require('./routes/admin.js');
 app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(passport.session())

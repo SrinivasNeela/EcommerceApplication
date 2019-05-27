@@ -8,7 +8,7 @@ const axios = require("axios")
 const Customer =require('../model/Customer')
 const CustomerModule =require('../modules/customer')
 
-//register srinivas
+//register Jhansi
 router.post("/register",  async (req, res) => {
 	const {customer: {name ,email, password} } = req.body
 	try {
@@ -16,7 +16,8 @@ router.post("/register",  async (req, res) => {
 			if (customerData) {
 				res.status(400).send("Customer Already Exists")
 			} else {
-                console.log("hii")
+				console.log("hii")
+				console.log("hiids")
                 const regCustom = new Customer(name, email, password);
 				const registeredCustomer = await CustomerModule.registerCustomer(regCustom)
 				res.json(registeredCustomer)
@@ -63,5 +64,44 @@ router.get("/profile", passport.authenticate("jwt", { session: false }), async (
 	 res.json({customer :req.user})
 });
 
+
+//  by jhansi
+
+
+// router.post("/add", async(req, res)=> {
+
+//  // const {customer: {id, name , email, password} } = req.body
+// // console.log(customer);
+
+// //	 const cdata = await CustomerModule.findCustomerByEmail("home@gmail.com")
+// 	try{
+	
+// 		const cdata = await CustomerModule.checkCustomer(req.body.email)
+// 		if (cdata) {
+			
+// 			res.status(400).send("customer Already Exists.Please try with another EmailId!")
+// 		} else {
+// 		  var customerData = {
+// 							  id: req.body.id,
+
+//                 name: req.body.name,
+
+//                 email: req.body.email,
+
+//                 password: req.body.password,
+
+               
+// 			}
+// 			console.log("---------" +customerData)
+// 			const customerDetails = await CustomerModule.addCustomer(customerData)
+// 			res.json(customerDetails)
+// 		}
+// }
+
+//   catch (err) {
+// 	   console.log(err)
+// 	   res.status(400).send(err)
+// }
+// })
 
 module.exports =router
