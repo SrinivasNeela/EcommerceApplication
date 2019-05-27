@@ -1,10 +1,28 @@
 var express = require('express')
 var app=express();
+const bodyParser = require("body-parser")
+const passport = require("passport")
 var db=require('./db');
 var config=require('./config/database')
 const port =process.env.port || 9000
+require("./config/passport")(passport)
+const admin = require("./routes/admin")
+const customer = require("./routes/customer");
+app.use(bodyParser.json())
+app.use(passport.initialize())
+app.use(passport.session())
+ 
+
+
+
+//user routes
+app.use("/admin", admin)
+app.use("/customer", customer)
+
+
 app.get('/',(req, res)=> res.send("hii"));
 app.get('*',(req,res)=>res.send("please check Your URL"))
+
 
 
 //mongoDB connection
