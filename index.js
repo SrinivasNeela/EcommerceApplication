@@ -1,21 +1,32 @@
-const express = require('express')
-const app=express();
+var express = require('express')
+var app=express();
+const bodyParser = require("body-parser")
+const passport = require("passport")
 var db=require('./db');
 var config=require('./config/database')
 const port =process.env.port || 9000
-const bodyParser=require('body-parser');
+require("./config/passport")(passport)
+const admin = require("./routes/admin")
+const customer =require('./routes/customer')
 var productRouter=require('./routes/productRouter.js');
 var adminRouter=require('./routes/admin.js');
+app.use(bodyParser.json())
+app.use(passport.initialize())
+app.use(passport.session())
+
+
+
+
+//user routes
+app.use("/admin", admin)
+app.use("/customer", customer)
+app.use('/api',productRouter)
 
 
 app.get('/',(req, res)=> res.send("hii"));
-app.use(bodyParser.urlencoded({ extended:true}));
-app.use(bodyParser.json());
+app.get('*',(req,res)=>res.send("please check Your URL"))
 
-app.use('/api',productRouter)
-{
-	console.log("It Customer Schema")
-};
+
 
 //mongoDB connection
 db.connect(config.database, function (err) {
@@ -24,10 +35,6 @@ db.connect(config.database, function (err) {
 		process.exit(1)
 	} else {
 		console.log("connected to mongodb")
-		
 		app.listen(port);
 	}
-
-
-	
 })

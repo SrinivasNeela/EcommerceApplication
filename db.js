@@ -7,7 +7,7 @@ exports.connect = (url, done) => {
   if (state.db) return done()
   MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
     if (err) { console.log(err); return done(err)}
-    state.db = client.db('ecommerce')
+    state.db = client.db('mydb')
     done()
   })
 }

@@ -1,10 +1,10 @@
 const express = require('express');
 const  productRouter = express.Router();
 const productModule=require('../modules/productModule');
+const passport = require("passport")
 
 
-
-productRouter.get('/products',async(req,res)=>
+productRouter.get('/products',passport.authenticate("jwt", { session: false }),async(req,res)=>
 {
     
         try {
@@ -19,7 +19,7 @@ productRouter.get('/products',async(req,res)=>
     
 }),
 
-productRouter.get('/products/:id', async(req,res)=>
+productRouter.get('/products/:id',passport.authenticate("jwt", { session: false }), async(req,res)=>
 {
     try
     {
@@ -36,7 +36,7 @@ productRouter.get('/products/:id', async(req,res)=>
 
 });
 
-productRouter.put('/products/:id',async(req, res) => 
+productRouter.put('/products/:id',passport.authenticate("jwt", { session: false }),async(req, res) => 
   {
         const productListById= await productModule.findByIdAndUpdate(req.params.id,req.body.status);
         res.json(productListById);
