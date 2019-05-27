@@ -4,20 +4,20 @@ const config = require("../config/database")
 const customerModule = require('../modules/customer')
 
 // view Customers
-router.get("/totalcustomers", async (req, res) =>{
+router.get("/totalcustomers",passport.authenticate("jwt", { session: false }), async (req, res) =>{
     const custList = await customerModule.findCustomers();
     res.json(custList);
 
 })
 
 // view orderDetails
-router.get("/orderproductlist", async (req, res) =>{
+router.get("/orderproductlist", passport.authenticate("jwt", { session: false }),async (req, res) =>{
     const orderProductList = await customerModule.findorderProductList();
     res.json(orderProductList);
 })
 
 // view orders
-router.get("/orderslist",  async(req,res)=>{
+router.get("/orderslist", passport.authenticate("jwt", { session: false }), async(req,res)=>{
   try{
     const ordersListData = await customerModule.findOrdersList()
     res.json(ordersListData);
