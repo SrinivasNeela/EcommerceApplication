@@ -21,6 +21,12 @@ router.put("/update/:id", passport.authenticate("jwt", { session: false }), asyn
 //write your code here
 }
 
+  
+ 
+ 
+ 
+  
+What,why, how passport.js?
 
 https://www.freecodecamp.org/news/learn-how-to-handle-authentication-with-node-using-passport-js-4a56ed18e81e/
 
@@ -30,4 +36,9 @@ https://www.npmjs.com/package/passport  //for configuration
 
 
 
-please follow the es6 standards  for more ==>http://blog.thefirehoseproject.com/posts/12-reasons-es6-future-javascript-web-development/
+
+
+
+please follow es6 standards  for more ==>http://blog.thefirehoseproject.com/posts/12-reasons-es6-future-javascript-web-development/
+
+Remove console.logs before pushing to branch 
