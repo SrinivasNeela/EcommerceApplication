@@ -7,12 +7,7 @@ var config=require('./config/database')
 const port =process.env.port || 9000
 require("./config/passport")(passport)
 const admin = require("./routes/admin")
-<<<<<<< HEAD
 const customer =require('./routes/customer')
-=======
-const customer = require('./routes/customer')
-var productRouter=require('./routes/productRouter.js');
->>>>>>> 48c1ab277a6f6fa7956ef62b8e8975ff9ce86409
 app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(passport.session())
@@ -23,10 +18,6 @@ app.use(passport.session())
 //user routes
 app.use("/admin", admin)
 app.use("/customer", customer)
-<<<<<<< HEAD
-=======
-app.use('/api',productRouter)
->>>>>>> 48c1ab277a6f6fa7956ef62b8e8975ff9ce86409
 
 
 app.get('/',(req, res)=> res.send("hii"));

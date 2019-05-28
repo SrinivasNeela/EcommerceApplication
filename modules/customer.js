@@ -1,37 +1,3 @@
-<<<<<<< HEAD
-const ObjectID = require("mongodb").ObjectID
-const db = require("../db")
-const Util=require("../util")
-
-const findCustomerById =async(id)=>{
-    try {
-        if (!ObjectID.isValid(id)) throw 'Invalid MongoDB ID.'
-        return await db.getCollection('customer').findOne(ObjectID(id))
-    } catch (e) {   
-        throw e
-    }
-}
-
-const findCustomerByEmail = async email=>{
-    try {
-        return await db.getCollection('customer').findOne({email})
-    } catch (e) {   
-        throw e
-    }
-}
-
-const registerCustomer = async newCustomer => {
-    try {
-        newCustomer.password = await Util.encryptPassword(newCustomer.password);
-        return await db.getCollection('customer').insertOne(newCustomer)
-    } catch (e) {
-        throw e
-    }
-}
-
-
-module.exports ={findCustomerById,findCustomerByEmail,registerCustomer}
-=======
 const ObjectID = require("mongodb").ObjectID
 const db = require("../db")
 const Util=require("../util")
@@ -111,4 +77,3 @@ const registerCustomer = async newCustomer => {
 
 module.exports ={findCustomerById,findCustomerByEmail,registerCustomer,findCustomers,findOrdersList, findorderProductList,findOrdersListById}
 
->>>>>>> 48c1ab277a6f6fa7956ef62b8e8975ff9ce86409

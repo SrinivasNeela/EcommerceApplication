@@ -16,8 +16,7 @@ router.post("/register", async (req, res) => {
 		if (customerData) {
 			res.status(400).send("Customer Already Exists")
 		} else {
-			console.log("hii")
-			console.log("hiids")
+			
 			const regCustom = new Customer(name, email, password);
 			const registeredCustomer = await CustomerModule.registerCustomer(regCustom)
 			res.json(registeredCustomer)

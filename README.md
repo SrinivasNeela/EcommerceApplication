@@ -11,14 +11,8 @@ git config http.sslVerify false
 git clone "https://github.com/SrinivasNeela/EcommerceApplication.git"
 
 npm install
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> fc992b2e7f19774735879290cba78620155969c1
->>>>>>> 48c1ab277a6f6fa7956ef62b8e8975ff9ce86409
+
+
 
 if you are writing new Api then  write passport.authenticate("jwt", { session: false } as a middleware function
 
@@ -27,7 +21,7 @@ ex:-
 router.put("/update/:id", passport.authenticate("jwt", { session: false }), async (req, res) => {
 //write your code here
 }
-<<<<<<< HEAD
+
 
   
  
@@ -54,9 +48,3 @@ Remove console.logs before you push to your  branch
 
 
 
-=======
-<<<<<<< HEAD
-=======
->>>>>>> d3f20bf8130d0ba490e154f840e7c5c674d8d1d7
->>>>>>> fc992b2e7f19774735879290cba78620155969c1
->>>>>>> 48c1ab277a6f6fa7956ef62b8e8975ff9ce86409
