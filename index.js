@@ -8,7 +8,6 @@ const port =process.env.port || 9000
 require("./config/passport")(passport)
 const admin = require("./routes/admin")
 const customer =require('./routes/customer')
-var productRouter=require('./routes/productRouter.js');
 app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(passport.session())
@@ -19,7 +18,6 @@ app.use(passport.session())
 //user routes
 app.use("/admin", admin)
 app.use("/customer", customer)
-app.use('/api',productRouter)
 
 
 app.get('/',(req, res)=> res.send("hii"));
