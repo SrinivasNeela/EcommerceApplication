@@ -7,7 +7,7 @@ var config=require('./config/database')
 const port =process.env.port || 9000
 require("./config/passport")(passport)
 const admin = require("./routes/admin")
-const customer =require('./routes/customer')
+const customer = require('./routes/customer')
 var productRouter=require('./routes/productRouter.js');
 app.use(bodyParser.json())
 app.use(passport.initialize())

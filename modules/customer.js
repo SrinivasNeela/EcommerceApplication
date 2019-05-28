@@ -5,7 +5,7 @@ const Util=require("../util")
 // view Customers
 const findCustomers= async =>{
     try {
-        return db.getCollection('customers').find({}).toArray();
+        return db.getCollection('customer').find({}).toArray();
     } catch (e) {   
         throw e
     }
@@ -14,7 +14,7 @@ const findCustomers= async =>{
 // view orderDetails
 const findorderProductList = async =>{
     try {
-        return db.getCollection('customers').aggregate([ { $unwind : '$ordersList'},{$group:{'_id':'$ordersList', 'TotalOrderProductsList'  :{ $push: '$ordersList.orderedProductsList'}}}]).toArray();
+        return db.getCollection('customer').aggregate([ { $unwind : '$ordersList'},{$group:{'_id':'$ordersList', 'TotalOrderProductsList'  :{ $push: '$ordersList.orderedProductsList'}}}]).toArray();
     } catch (e) {   
         throw e
     }
@@ -24,7 +24,7 @@ const findorderProductList = async =>{
 const findOrdersList = async =>{
     try{
 
-        return db.getCollection('customers').aggregate([{$group:{'_id':null, 'TotalOrdersList'  :{ $push: '$ordersList'}}}]).toArray();
+        return db.getCollection('customer').aggregate([{$group:{'_id':null, 'TotalOrdersList'  :{ $push: '$ordersList'}}}]).toArray();
     }
     catch(e)
     {
@@ -34,7 +34,19 @@ const findOrdersList = async =>{
 
 
 
-
+const findOrdersListById= async id =>
+{
+    try 
+    {
+    
+    //  return   db.getCollection('customer').find({ 'ordersList.id' : id }).toArray();
+    return db.getCollection('customer').aggregate([{ $unwind : '$ordersList'}, { $match : { 'ordersList.id':id  } }, { $group: {  '_id':null,'ordersList': { $push : '$ordersList' }}}]).toArray()
+    }
+    catch(e)
+    {
+        console.log(e);
+    }
+}
 
 const findCustomerById =async(id)=>{
     try {
@@ -63,5 +75,5 @@ const registerCustomer = async newCustomer => {
 }
 
 
-module.exports ={findCustomerById,findCustomerByEmail,registerCustomer,findCustomers,findOrdersList, findorderProductList}
+module.exports ={findCustomerById,findCustomerByEmail,registerCustomer,findCustomers,findOrdersList, findorderProductList,findOrdersListById}
 
