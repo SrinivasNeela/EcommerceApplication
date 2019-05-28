@@ -8,7 +8,7 @@ const axios = require("axios")
 const Admin = require('../model/Admin')
 const AdminModule = require("../modules/admin")
 const productModule = require('../modules/productModule');
-
+const productModel = require('../model/Product')
 
 //Admin register
 
@@ -70,7 +70,27 @@ router.get("/profile", passport.authenticate("jwt", { session: false }), async (
 
 
 
-router.get('/list/products', passport.authenticate("jwt", { session: false }), async (req, res) => {
+router.post("/addProduct",passport.authenticate("jwt", { session: false }),async(req,res)=>{
+
+const { products: { id,description,finish,price,imagesList}}=req.body
+
+  try{
+	
+	  let products = new productModel(id,description,finish,price,status=0,imagesList)
+	  let addedproduct =await productModule.addProduct(products)
+	  res.json({addedproduct})
+  }
+  catch(e)
+  {
+	  console.log(e)
+	res.status(400).send(e)
+  }
+
+
+
+} )
+
+router.get('/productsList', passport.authenticate("jwt", { session: false }), async (req, res) => {
 
 	try {
 		let productList = await productModule.findProducts();

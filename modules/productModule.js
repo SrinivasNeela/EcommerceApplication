@@ -23,6 +23,16 @@ const findProductsById = async id  =>
     }
 }
 
+
+const addProduct = async newProduct => {
+    try {
+        return await db.getCollection('products').insertOne(newProduct)
+    }
+    catch (e) {
+        throw e
+    }
+}
+
 const findByIdAndUpdate = async (id,status) =>
 {
     try{
@@ -35,4 +45,4 @@ const findByIdAndUpdate = async (id,status) =>
 
     }
 }
-module.exports = {findProducts,findProductsById,findByIdAndUpdate}
+module.exports = {findProducts,findProductsById,findByIdAndUpdate,addProduct}

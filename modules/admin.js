@@ -29,4 +29,7 @@ const registerAdmin = async newAdmin => {
 }
 
 
+
+
+
 module.exports ={findAdminById,registerAdmin,findAdminByphoneNo}

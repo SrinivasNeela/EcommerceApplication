@@ -8,7 +8,7 @@ const axios = require("axios")
 const Customer = require('../model/Customer')
 const CustomerModule = require('../modules/customer')
 
-//register Jhansi
+//register 
 router.post("/register", async (req, res) => {
 	const { customer: { name, email, password } } = req.body
 	try {
@@ -28,7 +28,7 @@ router.post("/register", async (req, res) => {
 	}
 })
 
-// Login srinivas
+// Login 
 router.post("/login", async (req, res) => {
 	const { customer: { email, password } } = req.body
 	try {
@@ -70,14 +70,14 @@ router.get("/totalcustomers",passport.authenticate("jwt", { session: false }), a
 
 })
 
-// view orderDetails rajesh
-router.get("/orderproductlist",passport.authenticate("jwt", { session: false }), async (req, res) => {
+// view orderDetails
+router.get("/orderProductList",passport.authenticate("jwt", { session: false }), async (req, res) => {
 	const orderProductList = await CustomerModule.findorderProductList();
 	res.json(orderProductList);
 })
 
-// view orders rajesh
-router.get("/orderslist",passport.authenticate("jwt", { session: false }), async (req, res) => {
+// view orders 
+router.get("/ordersList",passport.authenticate("jwt", { session: false }), async (req, res) => {
 	try {
 		const ordersListData = await CustomerModule.findOrdersList()
 		res.json(ordersListData);
@@ -87,12 +87,11 @@ router.get("/orderslist",passport.authenticate("jwt", { session: false }), async
 	}
 })
 
-// view order by filter - not working -rajesh
-router.get("/orderslists/:id",passport.authenticate("jwt", { session: false }), async (req, res) => {
+// view order by filter 
+router.get("/ordersList/:id",passport.authenticate("jwt", { session: false }), async (req, res) => {
 	try {
-
+       
 		const ordersListData = await CustomerModule.findOrdersListById(req.params.id)
-		
 		res.json({ordersListData})
 
 	}

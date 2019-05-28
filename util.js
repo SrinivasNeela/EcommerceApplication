@@ -23,7 +23,6 @@ const comparePassword = (password, hash) => new Promise(async (resolve, reject) 
 	try {
 	
 		const isMatch = await bcrypt.compare(password, hash)
-		console.log(hash);
 		resolve(isMatch)
 		return true
 	} catch (err) {

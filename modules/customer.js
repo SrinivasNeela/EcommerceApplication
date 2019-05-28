@@ -3,28 +3,28 @@ const db = require("../db")
 const Util=require("../util")
 
 // view Customers
-const findCustomers= async =>{
+const findCustomers= async ()=>{
     try {
-        return db.getCollection('customer').find({}).toArray();
+        return await  db.getCollection('customer').find({}).toArray();
     } catch (e) {   
         throw e
     }
 }
 
 // view orderDetails
-const findorderProductList = async =>{
+const findorderProductList = async() =>{
     try {
-        return db.getCollection('customer').aggregate([ { $unwind : '$ordersList'},{$group:{'_id':'$ordersList', 'TotalOrderProductsList'  :{ $push: '$ordersList.orderedProductsList'}}}]).toArray();
+        return await db.getCollection('customer').aggregate([ { $unwind : '$ordersList'},{$group:{'_id':null, 'orderedProductsList'  :{ $push: '$ordersList.orderedProductsList'}}}]).toArray();
     } catch (e) {   
         throw e
     }
 }
 
 // view orders
-const findOrdersList = async =>{
+const findOrdersList = async() =>{
     try{
 
-        return db.getCollection('customer').aggregate([{$group:{'_id':null, 'TotalOrdersList'  :{ $push: '$ordersList'}}}]).toArray();
+        return await db.getCollection('customer').aggregate([{$group:{'_id':null, 'ordersList'  :{ $push: '$ordersList'}}}]).toArray();
     }
     catch(e)
     {
@@ -38,17 +38,16 @@ const findOrdersListById= async id =>
 {
     try 
     {
-    
-    //  return   db.getCollection('customer').find({ 'ordersList.id' : id }).toArray();
-    return db.getCollection('customer').aggregate([{ $unwind : '$ordersList'}, { $match : { 'ordersList.id':id  } }, { $group: {  '_id':null,'ordersList': { $push : '$ordersList' }}}]).toArray()
+    //  return   db.getCollection('customer').find({ 'ordersList.id' : id }).toArray(); 
+       return  await (db.getCollection('customer').aggregate([{ $unwind : '$ordersList'}, { $match : { 'ordersList.id': id  } }, { $group: {  '_id':null,'ordersList': { $push : '$ordersList' }}}])).toArray()
     }
     catch(e)
     {
-        console.log(e);
+       throw e
     }
 }
 
-const findCustomerById =async(id)=>{
+const findCustomerById =async id=>{
     try {
         if (!ObjectID.isValid(id)) throw 'Invalid MongoDB ID.'
         return await db.getCollection('customer').findOne(ObjectID(id))
