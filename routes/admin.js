@@ -7,8 +7,11 @@ const Util = require("../util")
 const axios = require("axios")
 const Admin = require('../model/Admin')
 const AdminModule = require("../modules/admin")
+const productModule = require('../modules/productModule');
 
-//register srinivas
+
+//Admin register
+
 router.post("/register", async (req, res) => {
 	const { admin: { username, phoneNo, password } } = req.body
 	try {
@@ -16,7 +19,6 @@ router.post("/register", async (req, res) => {
 		if (adminData) {
 			res.status(400).send("Admin Already Exists")
 		} else {
-			console.log("hii")
 			const regAdmin = new Admin(username, phoneNo, password);
 			const registeredAdmin = await AdminModule.registerAdmin(regAdmin)
 			res.json(registeredAdmin)
@@ -28,7 +30,9 @@ router.post("/register", async (req, res) => {
 	}
 })
 
-// Login srinivas
+
+
+// Admin Login 
 router.post("/login", async (req, res) => {
 	const { admin: { phoneNo, password } } = req.body
 	try {
@@ -60,11 +64,40 @@ router.post("/login", async (req, res) => {
 })
 
 
-router.get("/profile", passport.authenticate("jwt", { session: false }), async (req, res) => {
-	// res.json("hello u r logged in")
-   res.json({admin :req.user})
-});
+//Admin profile
 
+router.get("/profile", passport.authenticate("jwt", { session: false }), async (req, res) => { res.json({ admin: req.user }) });
+
+
+
+router.get('/list/products', passport.authenticate("jwt", { session: false }), async (req, res) => {
+
+	try {
+		let productList = await productModule.findProducts();
+		res.json({ productList })
+	}
+	catch (err) {
+		res.status(400).send(err)
+	}
+
+}),
+
+	router.get('/products/:id', passport.authenticate("jwt", { session: false }), async (req, res) => {
+		try {
+			let productListById = await productModule.findProductsById(req.params.id);
+			res.json(productListById);
+		}
+		catch (e) {
+			res.status(400).send(e)
+		}
+
+	});
+
+router.put('/products/:id', passport.authenticate("jwt", { session: false }), async (req, res) => {
+	const productListById = await productModule.findByIdAndUpdate(req.params.id, req.body.status);
+	res.json(productListById);
+
+});
 
 
 module.exports = router

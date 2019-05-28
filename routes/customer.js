@@ -4,11 +4,12 @@ const passport = require("passport")
 const jwt = require("jsonwebtoken")
 const config = require("../config/database")
 const Util = require("../util")
-const axios = require("axios")
 const Customer =require('../model/Customer')
 const CustomerModule =require('../modules/customer')
 
-//register Jhansi
+
+
+//customer Registration
 router.post("/register",  async (req, res) => {
 	const {customer: {name ,email, password} } = req.body
 	try {
@@ -16,9 +17,8 @@ router.post("/register",  async (req, res) => {
 			if (customerData) {
 				res.status(400).send("Customer Already Exists")
 			} else {
-				console.log("hii")
-				console.log("hiids")
-                const regCustom = new Customer(name, email, password);
+				const ordersList=[]
+                const regCustom = new Customer(name, email, password,ordersList);
 				const registeredCustomer = await CustomerModule.registerCustomer(regCustom)
 				res.json(registeredCustomer)
             }
@@ -29,7 +29,9 @@ router.post("/register",  async (req, res) => {
 	}
 })
 
-// Login srinivas
+
+
+//customer login
 router.post("/login", async (req, res) => {
 	const { customer : {email, password }} = req.body
  	try {
@@ -60,20 +62,20 @@ router.post("/login", async (req, res) => {
 })
 
 
+//customer profile
 router.get("/profile", passport.authenticate("jwt", { session: false }), async (req, res) => {
 	 res.json({customer :req.user})
 });
 
 
-//  by jhansi
 
 
 // router.post("/add", async(req, res)=> {
 
-//  // const {customer: {id, name , email, password} } = req.body
-// // console.log(customer);
+//   const {customer: {id, name , email, password} } = req.body
+// console.log(customer);
 
-// //	 const cdata = await CustomerModule.findCustomerByEmail("home@gmail.com")
+// 	 const cdata = await CustomerModule.findCustomerByEmail("home@gmail.com")
 // 	try{
 	
 // 		const cdata = await CustomerModule.checkCustomer(req.body.email)
