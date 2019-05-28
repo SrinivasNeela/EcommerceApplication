@@ -7,7 +7,7 @@ const Util = require("../util")
 const axios = require("axios")
 const Customer = require('../model/Customer')
 const CustomerModule = require('../modules/customer')
-
+var log = require('log4js').getLogger('debug');
 //register 
 router.post("/register", async (req, res) => {
 	const { customer: { name, email, password } } = req.body
@@ -63,17 +63,22 @@ router.get("/profile", passport.authenticate("jwt", { session: false }), async (
 	res.json({ customer: req.user })
 });
 
-// view Customers rajesh
-router.get("/totalcustomers",passport.authenticate("jwt", { session: false }), async (req, res) => {
+// view Customers 
+router.get("/totalCustomers",passport.authenticate("jwt", { session: false }), async (req, res) => {
+	log.info("In customers GET method");
 	const custList = await CustomerModule.findCustomers();
 	res.json(custList);
+	log.info("customers GET method Successful");
+
 
 })
 
 // view orderDetails
 router.get("/orderProductList",passport.authenticate("jwt", { session: false }), async (req, res) => {
+	log.info("In orderProductList  GET method");
 	const orderProductList = await CustomerModule.findorderProductList();
 	res.json(orderProductList);
+	log.info("orderProductList GET method Successful");
 })
 
 // view orders 

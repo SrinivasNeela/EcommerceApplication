@@ -39,7 +39,7 @@ const findOrdersListById= async id =>
     try 
     {
     //  return   db.getCollection('customer').find({ 'ordersList.id' : id }).toArray(); 
-       return  await (db.getCollection('customer').aggregate([{ $unwind : '$ordersList'}, { $match : { 'ordersList.id': id  } }, { $group: {  '_id':null,'ordersList': { $push : '$ordersList' }}}])).toArray()
+       return  await (db.getCollection('customer').aggregate([{ $unwind : '$ordersList'}, { $match : { 'ordersList.id': Number(id)  } }, { $group: {  '_id':null,'ordersList': { $push : '$ordersList' }}}])).toArray()
     }
     catch(e)
     {
