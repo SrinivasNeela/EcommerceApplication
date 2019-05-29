@@ -1,37 +1,33 @@
-var express = require('express')
-var app=express();
-const bodyParser = require("body-parser")
-const passport = require("passport")
-var db=require('./db');
-var config=require('./config/database')
-const logger= require('./config/logger')
-const port =process.env.port || 9000
+const express = require('express')
+	, app = express()
+	, bodyParser = require("body-parser")
+	, passport = require("passport")
+	, db = require('./db')
+	, config = require('./config/database')
+	, port = process.env.port || 9000
+	, adminRouter = require("./routes/admin")
+	, customerRouter = require('./routes/customer')
+	,COMMENTS =require('./properties')
 require("./config/passport")(passport)
-const admin = require("./routes/admin")
-const customer =require('./routes/customer')
+
+//middleware functions
 app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(passport.session())
 
-
-
 //user routes
-app.use("/admin", admin)
-app.use("/customer", customer)
+app.use("/admin", adminRouter)
+app.use("/customer", customerRouter)
 
-
-app.get('/',(req, res)=> res.send("hii"));
-app.get('*',(req,res)=>res.send("please check Your URL"))
-
-
+//main routes
+app.get('/', (req, res) => res.send(COMMENTS.MAIN_ROUTE));
+app.get('*', (req, res) => res.send(COMMENTS.CHECK_URL_PATH))
 
 //mongoDB connection
 db.connect(config.database, function (err) {
 	if (err) {
-		console.log("Unable to connect to Mongo....", err)
 		process.exit(1)
 	} else {
-		console.log("connected to mongodb")
 		app.listen(port);
 	}
 })

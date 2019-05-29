@@ -2,7 +2,7 @@ const ObjectID = require("mongodb").ObjectID
 const db = require("../db")
 const Util=require("../util")
 
-const findAdminById =async(id)=>{
+const findById =async(id)=>{
     try {
         if (!ObjectID.isValid(id)) throw 'Invalid MongoDB ID.'
         return await db.getCollection('admin').findOne(ObjectID(id))
@@ -11,7 +11,7 @@ const findAdminById =async(id)=>{
     }
 }
 
-const findAdminByphoneNo = async phoneNo=>{
+const findByphoneNo = async phoneNo=>{
     try {
         return await db.getCollection('admin').findOne({phoneNo})
     } catch (e) {   
@@ -19,7 +19,7 @@ const findAdminByphoneNo = async phoneNo=>{
     }
 }
 
-const registerAdmin = async newAdmin => {
+const register = async newAdmin => {
     try {
         newAdmin.password = await Util.encryptPassword(newAdmin.password);
         return await db.getCollection('admin').insertOne(newAdmin)
@@ -32,4 +32,4 @@ const registerAdmin = async newAdmin => {
 
 
 
-module.exports ={findAdminById,registerAdmin,findAdminByphoneNo}
+module.exports ={findById,register,findByphoneNo}

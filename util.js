@@ -9,7 +9,6 @@ const encryptPassword = password => new Promise((resolve, reject) => {
 		}
 		bcrypt.hash(password, salt, (err, hash) => {
 			if (err) {
-				console.log(err)
 				reject(err)
 				return false
 			}

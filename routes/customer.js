@@ -1,59 +1,58 @@
 const express = require("express")
-const router = express.Router()
-const passport = require("passport")
-const jwt = require("jsonwebtoken")
-const config = require("../config/database")
-const Util = require("../util")
-const axios = require("axios")
-const Customer = require('../model/Customer')
-const CustomerModule = require('../modules/customer')
-var log = require('log4js').getLogger('debug');
+	, router = express.Router()
+	, passport = require("passport")
+	, jwt = require("jsonwebtoken")
+	, config = require("../config/database")
+	, util = require("../util")
+	, Customer = require('../model/Customer')
+	, customerModule = require('../modules/customer')
+	, COMMENTS = require("../properties")
+
 //register 
 router.post("/register", async (req, res) => {
 	const { customer: { name, email, password } } = req.body
 	try {
-		const customerData = await CustomerModule.findCustomerByEmail(email)
-		if (customerData) {
-			res.status(400).send("Customer Already Exists")
+		const customerInfo = await customerModule.findByEmail(email)
+		if (customerInfo) {
+			res.status(400).send(COMMENTS.CUSTOMER_ALREADY_EXISTS)
 		} else {
-			
-			const regCustom = new Customer(name, email, password);
-			const registeredCustomer = await CustomerModule.registerCustomer(regCustom)
-			res.json(registeredCustomer)
+
+			const addCustomer = new Customer(name, email, password);
+			const registerCustomer = await customerModule.register(addCustomer)
+			res.json(registerCustomer)
 		}
 	}
 	catch (err) {
-		console.log(err)
 		res.status(400).send(err)
 	}
 })
+
 
 // Login 
 router.post("/login", async (req, res) => {
 	const { customer: { email, password } } = req.body
 	try {
-		const customer = await CustomerModule.findCustomerByEmail(email)
+		const customer = await CustomerModule.findByEmail(email)
 		if (customer) {
-			const isMatch = await Util.comparePassword(password, customer.password)
+			const isMatch = await util.comparePassword(password, customer.password)
 			if (isMatch) {
 				const token = jwt.sign(customer, config.secret, {
 					expiresIn: 604800, // 1 Week 			
 				})
 				res.json({
 					success: true,
-					message: "Login Successfull",
+					message: COMMENTS.LOGIN_SUCCESSFULL,
 					token: `JWT ${token}`
 				})
 
 			}
 			else {
-				res.json({ success: false, message: "Wrong Password" })
+				res.json({ success: false, message: COMMENTS.WRONG_PASSWORD })
 			}
 		} else {
-			res.json({ success: false, message: "Customer Does Not Exists" })
+			res.json({ success: false, message: COMMENTS.CUSTOMER_DOESNT_EXISTS })
 		}
 	} catch (err) {
-		console.log(err)
 		res.status(400).send(err)
 	}
 })
@@ -63,29 +62,26 @@ router.get("/profile", passport.authenticate("jwt", { session: false }), async (
 	res.json({ customer: req.user })
 });
 
+
+
 // view Customers 
-router.get("/totalCustomers",passport.authenticate("jwt", { session: false }), async (req, res) => {
-	log.info("In customers GET method");
-	const custList = await CustomerModule.findCustomers();
-	res.json(custList);
-	log.info("customers GET method Successful");
-
-
+router.get("/totalCustomers", passport.authenticate("jwt", { session: false }), async (req, res) => {
+	const totalCustomers = await CustomerModule.findCustomers();
+	res.json(totalCustomers);
 })
 
+
 // view orderDetails
-router.get("/orderProductList",passport.authenticate("jwt", { session: false }), async (req, res) => {
-	log.info("In orderProductList  GET method");
+router.get("/orderProductList", passport.authenticate("jwt", { session: false }), async (req, res) => {
 	const orderProductList = await CustomerModule.findorderProductList();
 	res.json(orderProductList);
-	log.info("orderProductList GET method Successful");
 })
 
 // view orders 
-router.get("/ordersList",passport.authenticate("jwt", { session: false }), async (req, res) => {
+router.get("/ordersList", passport.authenticate("jwt", { session: false }), async (req, res) => {
 	try {
-		const ordersListData = await CustomerModule.findOrdersList()
-		res.json(ordersListData);
+		const ordersListInfo = await CustomerModule.findOrdersList()
+		res.json(ordersListInfo);
 	}
 	catch (e) {
 		res.status(400).send(e)
@@ -93,57 +89,16 @@ router.get("/ordersList",passport.authenticate("jwt", { session: false }), async
 })
 
 // view order by filter 
-router.get("/ordersList/:id",passport.authenticate("jwt", { session: false }), async (req, res) => {
+router.get("/ordersList/:id", passport.authenticate("jwt", { session: false }), async (req, res) => {
 	try {
-       
-		const ordersListData = await CustomerModule.findOrdersListById(req.params.id)
-		res.json({ordersListData})
+
+		const ordersListInfo = await CustomerModule.findOrdersListById(req.params.id)
+		res.json({ ordersListInfo })
 
 	}
 	catch (e) {
-		console.log(e)
 		res.status(400).send(e)
 	}
 })
-
-
-//  by jhansi
-
-
-// router.post("/add", async(req, res)=> {
-
-//  // const {customer: {id, name , email, password} } = req.body
-// // console.log(customer);
-
-// //	 const cdata = await CustomerModule.findCustomerByEmail("home@gmail.com")
-// 	try{
-
-// 		const cdata = await CustomerModule.checkCustomer(req.body.email)
-// 		if (cdata) {
-
-// 			res.status(400).send("customer Already Exists.Please try with another EmailId!")
-// 		} else {
-// 		  var customerData = {
-// 							  id: req.body.id,
-
-//                 name: req.body.name,
-
-//                 email: req.body.email,
-
-//                 password: req.body.password,
-
-
-// 			}
-// 			console.log("---------" +customerData)
-// 			const customerDetails = await CustomerModule.addCustomer(customerData)
-// 			res.json(customerDetails)
-// 		}
-// }
-
-//   catch (err) {
-// 	   console.log(err)
-// 	   res.status(400).send(err)
-// }
-// })
 
 module.exports = router
