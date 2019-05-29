@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "ionic": "^4.12.0",
     "jsonwebtoken": "^8.5.1",
+    "log4js": "^4.3.1",
     "mongodb": "^3.2.6",
     "nodemon": "^1.19.1",
     "passport": "^0.4.0",
@@ -24,16 +25,5 @@
   },
   "devDependencies": {
     "eslint": "^5.16.0"
-  },
-  "nodemonConfig": {
-    "restartable": "rs",
-    "ignore": [
-      "nodemodules/**/node_modules"
-    ],
-    "delay": "1000",
-    "env": {
-      "NODE_ENV": "development",
-      "PORT": 4000
-    }
   }
 }
