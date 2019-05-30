@@ -1,16 +1,20 @@
+require('dotenv').config()
 const express = require('express')
 	, app = express()
+	,cors =require('cors')
 	, bodyParser = require("body-parser")
 	, passport = require("passport")
 	, db = require('./db')
 	, config = require('./config/database')
-	, port = process.env.PORT || 4000
+	, port = process.env.PORT
 	, adminRouter = require("./routes/admin")
 	, customerRouter = require('./routes/customer')
-	,COMMENTS =require('./properties')
+	, COMMENTS = require('./properties')
+    
 require("./config/passport")(passport)
 
 //middleware functions
+app.use(cors())
 app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(passport.session())

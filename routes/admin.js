@@ -12,13 +12,13 @@ const express = require("express")
 //Admin register
 
 router.post("/register", async (req, res) => {
-	const { admin: { username, phoneNo, password } } = req.body
+	const { admin: { userName, phoneNo, password } } = req.body
 	try {
 		const adminInfo = await adminModule.findByphoneNo(phoneNo)
 		if (adminInfo) {
 			res.status(400).send(COMMENTS.ADMIN_ALREADY_EXISTS)
 		} else {
-			const regAdmin = new Admin(username, phoneNo, password);
+			const regAdmin = new Admin(userName, phoneNo, password);
 			const registeredAdmin = await adminModule.register(regAdmin)
 			res.json(registeredAdmin)
 		}

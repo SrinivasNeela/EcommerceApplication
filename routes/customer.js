@@ -7,17 +7,17 @@ const express = require("express")
 	, Customer = require('../model/Customer')
 	, customerModule = require('../modules/customer')
 	, COMMENTS = require("../properties")
-
+    
 //register 
 router.post("/register", async (req, res) => {
-	const { customer: { name, email, password } } = req.body
+	const { customer: { userName, email, password } } = req.body
 	try {
 		const customerInfo = await customerModule.findByEmail(email)
 		if (customerInfo) {
 			res.status(400).send(COMMENTS.CUSTOMER_ALREADY_EXISTS)
 		} else {
 
-			const addCustomer = new Customer(name, email, password);
+			const addCustomer = new Customer(userName, email, password);
 			const registerCustomer = await customerModule.register(addCustomer)
 			res.json(registerCustomer)
 		}
@@ -32,7 +32,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
 	const { customer: { email, password } } = req.body
 	try {
-		const customer = await CustomerModule.findByEmail(email)
+		const customer = await customerModule.findByEmail(email)
 		if (customer) {
 			const isMatch = await util.comparePassword(password, customer.password)
 			if (isMatch) {
@@ -66,21 +66,21 @@ router.get("/profile", passport.authenticate("jwt", { session: false }), async (
 
 // view Customers 
 router.get("/totalCustomers", passport.authenticate("jwt", { session: false }), async (req, res) => {
-	const totalCustomers = await CustomerModule.findCustomers();
+	const totalCustomers = await customerModule.findCustomers();
 	res.json(totalCustomers);
 })
 
 
 // view orderDetails
 router.get("/orderProductList", passport.authenticate("jwt", { session: false }), async (req, res) => {
-	const orderProductList = await CustomerModule.findorderProductList();
+	const orderProductList = await customerModule.findorderProductList();
 	res.json(orderProductList);
 })
 
 // view orders 
 router.get("/ordersList", passport.authenticate("jwt", { session: false }), async (req, res) => {
 	try {
-		const ordersListInfo = await CustomerModule.findOrdersList()
+		const ordersListInfo = await customerModule.findOrdersList()
 		res.json(ordersListInfo);
 	}
 	catch (e) {
@@ -92,7 +92,7 @@ router.get("/ordersList", passport.authenticate("jwt", { session: false }), asyn
 router.get("/ordersList/:id", passport.authenticate("jwt", { session: false }), async (req, res) => {
 	try {
 
-		const ordersListInfo = await CustomerModule.findOrdersListById(req.params.id)
+		const ordersListInfo = await customerModule.findOrdersListById(req.params.id)
 		res.json({ ordersListInfo })
 
 	}

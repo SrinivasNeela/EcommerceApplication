@@ -9,8 +9,8 @@ module.exports = passport => {
     opts.secretOrKey = config.secret
     passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
         try {
-             var admin =await AdminModule.findAdminById(jwt_payload._id)
-             var customer =await CustomerModule.findCustomerById(jwt_payload._id)
+             var admin =await AdminModule.findById(jwt_payload._id)
+             var customer =await CustomerModule.findById(jwt_payload._id)
              if (admin)
                 return done(null, admin);
             else if(customer) 

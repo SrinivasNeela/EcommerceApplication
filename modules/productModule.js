@@ -10,7 +10,7 @@ const findProducts = async () => {
     }
 }
 
-const findProductsById = async id  =>
+const findById = async id  =>
 {
     try
     {
@@ -45,4 +45,4 @@ const findByIdAndUpdate = async (id,status) =>
 
     }
 }
-module.exports = {findProducts,findProductsById,findByIdAndUpdate,addProduct}
+module.exports = {findProducts,findById,findByIdAndUpdate,addProduct}
