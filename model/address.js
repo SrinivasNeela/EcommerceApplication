@@ -7,7 +7,5 @@ module.export= class Address {
             this.city = city;
             this.state = state;
             this.postalCode = postalCode;
-
-
         }
 }
