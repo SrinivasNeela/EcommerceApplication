@@ -1,6 +1,5 @@
 module.export= class Address {
-
-        constructor(doorNo,street,city,state,postalCode)
+       constructor(doorNo,street,city,state,postalCode)
         {
             this.doorNo = doorNo;
             this.street = street;
